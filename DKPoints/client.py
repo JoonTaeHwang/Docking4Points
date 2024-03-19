@@ -105,7 +105,6 @@ class GetDKpoints:
     def GetDKposition(self):
         while self.config.LiDAR.running:
             self.LiDAR.get_lidardata()
-            start_time = time.time()
             # ICP for DK area
             if len(self.config.LiDAR.voxel2d_prev)>0:
                 T, _, _, _, _ = ICP.icp(self.config.LiDAR.voxel2d_prev, self.config.LiDAR.voxel2d)# self.config.LiDAR.voxel2d_icp)
@@ -132,7 +131,6 @@ class GetDKpoints:
             ctr_vec=box[0,:] /np.linalg.norm(box[0,:])
             hc_dot=np.dot(h_vec,ctr_vec)
             self.config.DK.dkpoints,dk_clear=self.GetDKpoints(voxel2d_dk_area, self.config.DK.dkpoints, h_vec*np.sign(hc_dot))
-            print(time.time()-start_time)
             self.visualize(dk_clear)
             
     def GetDKpoints(self, voxel2d_dk_area, box_o, h_vec):
